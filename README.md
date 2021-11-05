@@ -8,7 +8,7 @@ Tässä on kaksi luokkaa esimmäinen on käyttäjän toiminnoille ja toinen on v
 
 Ominaisuudet:
 
-Pystyy rekisteröitymään uuden käyttäjän, kirjautumaan ja hakea käyttäjän tiedot.
+Pystyy rekisteröitymään uuden käyttäjän ja kirjautumaan.
 
 Verkkokaupan tuotteita voi lisätä, hakea, hakea tietty tuote, päivittää tuote ja poistaa tuote. (Verkkokaupan pyynnöt tapahtuu vielä Postmanin kautta)
 
