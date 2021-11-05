@@ -67,12 +67,3 @@ Lähetetään Postmanilla POST pyyntö täyttämällä vaadittavat inputit\
 "password": "testi123"\
 }\
 https://backenddphp.herokuapp.com/user/login.php
-
-Haetaan halutun käyttäjän tiedot (POST)
-Kun kirjaudutaan, responsessa on token ja tätä tokenia käyttämällä saadaan käyttäjän tiedot
-
-Key Value
-
-Authorization Bearer
-
-https://backenddphp.herokuapp.com/user/user-info.php
