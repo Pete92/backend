@@ -15,29 +15,17 @@ class User {
 
 
 
-    // construct functioni. Kun tehdään uusi new User($db), käy läpi tietokanta yhteyden. 
-    public function __construct($db){
+    // construct functioni, Tehdään tietokanta yhteys. 
+    public function __construct($db)
+    {
         $this->conn = $db;
     }
 
-    //Rekisteröitymisen toiminta
+    #Rekisteröitymisen toiminta
     public function setUser()
     {
 
-        //Onko sama email jo tietokannassa
-        $check_email = "SELECT email FROM ". $this->db_table ." WHERE email = :email";
-        //valmistellaan query komentoa     
-        $check_email_stmt = $this->conn->prepare($check_email);
-        $check_email_stmt->bindValue(':email', $this->email,PDO::PARAM_STR);
-        //suoritetaan query komento
-        $check_email_stmt->execute();
-
-        //Jos Löyty, palautetaan false
-        if($check_email_stmt->rowCount()){
-            return false;
-        }
-
-        //Uuden käyttäjän lisääminen
+        //Query koodi
         $sqlQuery = "INSERT INTO
                     ". $this->db_table ."
         SET
@@ -47,14 +35,14 @@ class User {
 
             $stmt = $this->conn->prepare($sqlQuery);
 
-            //sanitaze
+            //Ei pakollinen, mutta estää esim. <b></b> tallennuksen. Käyttäjä ei pysty muokkaamaan sivun ulkonäköä.
             $this->name=htmlspecialchars(strip_tags($this->name));
             $this->email=htmlspecialchars(strip_tags($this->email));
-            $this->password=htmlspecialchars(strip_tags($this->password));
+            //$this->password=htmlspecialchars(strip_tags($this->password));
 
             //Määritellään SQL koodiin muuttujat
-            $stmt->bindValue(":name", $this->name);
-            $stmt->bindValue(":email", $this->email);
+            $stmt->bindParam(":name", $this->name);
+            $stmt->bindParam(":email", $this->email);
             $stmt->bindValue(":password", password_hash($this->password, PASSWORD_DEFAULT));
 
             //Jos query komento onnistui
@@ -67,14 +55,14 @@ class User {
 
 
 
-    //Kirjautumisen toiminta
+    #Kirjautumisen toiminta
     public function loginUser()
     {
-        //Valitaan käyttäjän sähköposti
+        //Query koodi
         $fetch_user_by_email = "SELECT * FROM ". $this->db_table ." WHERE email = :email";
 
         $query_stmt = $this->conn->prepare($fetch_user_by_email);
-        $query_stmt->bindValue(":email", $this->email,PDO::PARAM_STR);
+        $query_stmt->bindParam(":email", $this->email,PDO::PARAM_STR);
         $query_stmt->execute();
 
         //Jos löyty
@@ -87,6 +75,27 @@ class User {
             }
         }
         return false;
+    }
+
+    #Löytyykö käyttäjä jo tietokannasta
+    public function userExists()
+    {
+         //Query koodi
+         $check_email = "SELECT email FROM ". $this->db_table ." WHERE email = :email";
+
+         //valmistellaan query komentoa     
+         $check_email_stmt = $this->conn->prepare($check_email);
+         $check_email_stmt->bindParam(':email', $this->email,PDO::PARAM_STR);
+
+         //suoritetaan query komento
+         $check_email_stmt->execute();
+ 
+         //Jos Löyty, palautetaan false
+         if($check_email_stmt->rowCount()){
+             return false;
+         }
+
+        return true;
     }
 }
 ?>

@@ -14,7 +14,7 @@
         public $price;
         public $image;
 
-        // construct functioni. Kun tehdään uusi new Items($db), käy läpi tietokanta yhteyden. 
+        // construct functioni. Tehdään tietokanta yhteys
         public function __construct($db){
             $this->conn = $db;
         }
@@ -42,7 +42,7 @@
         
             $stmt = $this->conn->prepare($sqlQuery);
         
-            // Siistitään, käyttäjän annetut arvot. Otetaan merkit pois.
+            //Ei pakollinen, mutta estää esim. <b></b> tallennuksen. Käyttäjä ei pysty muokkaamaan sivun ulkonäköä.
             $this->title=htmlspecialchars(strip_tags($this->title));
             $this->description=htmlspecialchars(strip_tags($this->description));
             $this->price=htmlspecialchars(strip_tags($this->price));
@@ -107,7 +107,7 @@
         
             $stmt = $this->conn->prepare($sqlQuery);
         
-            // Siistitään, käyttäjän annetut arvot. Otetaan merkit pois.
+            //Ei pakollinen, mutta estää esim. <b></b> tallennuksen. Käyttäjä ei pysty muokkaamaan sivun ulkonäköä.
             $this->title=htmlspecialchars(strip_tags($this->title));
             $this->description=htmlspecialchars(strip_tags($this->description));
             $this->price=htmlspecialchars(strip_tags($this->price));

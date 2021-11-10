@@ -62,14 +62,18 @@ if($_SERVER["REQUEST_METHOD"] != "POST"){
 
         } else {
 
-            //uusi Objecti luokkaan Handler
+            //uusi Objecti luokkaan User
             $user = new User($db);
             $user->name = $data->name;
             $user->email = $data->email;
             $user->password = $data->password;
 
-            if($user->setUser()){
-                $returnData = msg(1,201,'Rekisteröityminen onnistui!');
+            if($user->userExists()){
+                if($user->setUser()){
+                    $returnData = msg(1,201,'Rekisteröityminen onnistui!');
+                } else {
+                    $returnData = msg(0,422,'Jokin meni pieleen.');
+                }
             } else {
                 $returnData = msg(0,422,'Käyttäjätunnus jo käytössä, valitse toinen.');
             }
