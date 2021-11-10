@@ -47,7 +47,7 @@ $returnData = [];
         }elseif(strlen($password) < 8){ 
             $returnData = msg(0,422,'Salasanasi täytyy olla vähintään 8 merkkiä pitkä.');
         } else {
-            //uusi Objecti luokkaan Handler
+            //uusi Objecti luokkaan User
             $user = new User($db);
             $user->email = $data->email;
             $user->password = $data->password;
